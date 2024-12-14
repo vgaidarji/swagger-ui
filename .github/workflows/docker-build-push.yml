@@ -17,7 +17,7 @@ on:
     type: [docker_build_push]
 
 env:
-  REGISTRY_IMAGE: swaggerapi/swagger-ui
+  REGISTRY_IMAGE: vgaidarji/swagger-ui
 
 jobs:
   inputs:
@@ -44,6 +44,7 @@ jobs:
 
 
 
+
   build:
     name: Build & Push SwaggerUI platform specific Docker images
     runs-on: ubuntu-latest
@@ -51,7 +52,7 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-          # linux/amd64 is already built by Jenkins
+          - linux/amd64
           - linux/arm/v6
           - linux/arm64
           - linux/386
@@ -67,13 +68,19 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY_IMAGE }}
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Log in to DockerHub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
+          username: ${{ vars.DOCKERHUB_SB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
 
       - name: Build and push by digest
@@ -82,6 +89,7 @@ jobs:
         with:
           context: .
           platforms: ${{ matrix.platform }}
+          labels: ${{ steps.meta.outputs.labels }}
           provenance: false
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
 
@@ -125,17 +133,22 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY_IMAGE }}
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_SB_USERNAME }}
+          username: ${{ vars.DOCKERHUB_SB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_SB_PASSWORD }}
 
       - name: Create manifest list and push
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create -t ${{ env.REGISTRY_IMAGE }}:${{ needs.inputs.outputs.docker_tag }} \
-            ${{ env.REGISTRY_IMAGE }}:${{ needs.inputs.outputs.docker_tag }} \
+          docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
             $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
 
       - name: Inspect image

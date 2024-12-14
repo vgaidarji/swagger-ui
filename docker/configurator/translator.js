@@ -31,7 +31,7 @@ const defaultBaseConfig = {
     }
   },
   plugins: {
-    value: `[\n  SwaggerUIBundle.plugins.DownloadUrl\n]`,
+    value: `[\n  SwaggerUIBundle.plugins.DownloadUrl,\n  SwaggerEditor.plugins.EditorContentType,\n  SwaggerEditor.plugins.EditorPreviewAsyncAPI,\n  SwaggerEditor.plugins.EditorPreviewApiDesignSystems,\n  SwaggerEditor.plugins.SwaggerUIAdapter\n]`,
     schema: {
       type: "array",
       base: true

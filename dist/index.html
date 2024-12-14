@@ -1,19 +1,39 @@
 <!-- HTML for static distribution bundle build -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Swagger UI</title>
-    <link rel="stylesheet" type="text/css" href="./swagger-ui.css" />
-    <link rel="stylesheet" type="text/css" href="index.css" />
-    <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <title>Swagger UI</title>
+  <link rel="stylesheet" type="text/css" href="./swagger-ui.css" />
+  <link rel="stylesheet" type="text/css" href="index.css" />
+  <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="SwaggerUIMultifold" />
+  <!-- use latest 5.x tag from https://github.com/swagger-api/swagger-editor/tags -->
+  <link rel="stylesheet" href="//unpkg.com/swagger-editor@5.0.0-alpha.98/dist/swagger-editor.css" />
+</head>
 
-  <body>
-    <div id="swagger-ui"></div>
-    <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script>
-    <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
-    <script src="./swagger-initializer.js" charset="UTF-8"> </script>
-  </body>
+<body>
+  <div id="swagger-ui"></div>
+  <!-- use latest version from https://unpkg.com/browse/swagger-ui-dist@5.18.2/ -->
+  <script src="//unpkg.com/swagger-ui-dist@5.18.2/swagger-ui-bundle.js"></script>
+  <script src="//unpkg.com/swagger-ui-dist@5.18.2/swagger-ui-standalone-preset.js"></script>
+
+  <!-- <script src="./swagger-ui-bundle.js" charset="UTF-8"> </script> -->
+  <script>
+    ui = SwaggerUIBundle({});
+    // expose SwaggerUI React globally for SwaggerEditor to use
+    window.React = ui.React;
+  </script>
+
+  <!-- use latest 5.x tag from https://github.com/swagger-api/swagger-editor/tags -->
+  <script src="//unpkg.com/swagger-editor@5.0.0-alpha.98/dist/umd/swagger-editor.js"></script>
+
+  <script src="./swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
+  <!-- add additional plugins via initializer script -->
+  <!-- see docker/configurator/translator.js -->
+  <script src="./swagger-initializer.js" charset="UTF-8"> </script>
+</body>
 </html>
