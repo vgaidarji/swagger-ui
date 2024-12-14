@@ -106,7 +106,11 @@ describe("docker: env translator", function() {
       SwaggerUIStandalonePreset
     ],
     plugins: [
-      SwaggerUIBundle.plugins.DownloadUrl
+      SwaggerUIBundle.plugins.DownloadUrl,
+      SwaggerEditor.plugins.EditorContentType,
+      SwaggerEditor.plugins.EditorPreviewAsyncAPI,
+      SwaggerEditor.plugins.EditorPreviewApiDesignSystems,
+      SwaggerEditor.plugins.SwaggerUIAdapter
     ],
     layout: "StandaloneLayout",
     queryConfigEnabled: false,
@@ -212,7 +216,11 @@ describe("docker: env translator", function() {
         SwaggerUIStandalonePreset
       ],
       plugins: [
-        SwaggerUIBundle.plugins.DownloadUrl
+        SwaggerUIBundle.plugins.DownloadUrl,
+        SwaggerEditor.plugins.EditorContentType,
+        SwaggerEditor.plugins.EditorPreviewAsyncAPI,
+        SwaggerEditor.plugins.EditorPreviewApiDesignSystems,
+        SwaggerEditor.plugins.SwaggerUIAdapter
       ],
       layout: "StandaloneLayout",
       queryConfigEnabled: false,
@@ -313,7 +321,11 @@ describe("docker: env translator", function() {
         SwaggerUIStandalonePreset
       ],
       plugins: [
-        SwaggerUIBundle.plugins.DownloadUrl
+        SwaggerUIBundle.plugins.DownloadUrl,
+        SwaggerEditor.plugins.EditorContentType,
+        SwaggerEditor.plugins.EditorPreviewAsyncAPI,
+        SwaggerEditor.plugins.EditorPreviewApiDesignSystems,
+        SwaggerEditor.plugins.SwaggerUIAdapter
       ],
       queryConfigEnabled: false,
       configUrl: "/wow",
